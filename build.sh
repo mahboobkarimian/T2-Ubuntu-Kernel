@@ -65,7 +65,7 @@ chmod a+x "${KERNEL_PATH}"/debian/rules
 chmod a+x "${KERNEL_PATH}"/debian/scripts/*
 chmod a+x "${KERNEL_PATH}"/debian/scripts/misc/*
 
-echo >&2 "===]> Info: Config kernel... "
+echo >&2 "===]> Info: Config kernel ... "
 /usr/bin/python3 "${KERNEL_PATH}"/debian/scripts/misc/annotations --arch amd64 --flavour generic --export > .config
 /usr/bin/python3 "${KERNEL_PATH}"/debian/scripts/misc/annotations --arch amd64 --flavour generic --import .config
 LANG=C fakeroot debian/rules clean updateconfigs
