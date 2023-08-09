@@ -75,11 +75,12 @@ echo >&2 "===]> Info: Bulding src... "
 
 cd "${KERNEL_PATH}"
 wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
+make oldconfig
 # Build Deb packages
 sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.master/changelog
 #LANG=C fakeroot debian/rules editconfigs
 LANG=C fakeroot debian/rules clean
-LANG=C fakeroot debian/rules clean updateconfigs
+#LANG=C fakeroot debian/rules clean updateconfigs
 LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
 
 #### Copy artifacts to shared volume
