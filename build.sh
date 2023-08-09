@@ -35,7 +35,8 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y build-essential fakeroot libncurses-dev bison flex libssl-dev libelf-dev \
   openssl dkms libudev-dev libpci-dev libiberty-dev autoconf wget xz-utils git \
-  libcap-dev bc rsync cpio dh-modaliases debhelper kernel-wedge curl gawk dwarves llvm zstd wget
+  libcap-dev bc rsync cpio dh-modaliases debhelper kernel-wedge curl gawk dwarves llvm zstd \
+  wget rustc-1.62 rust-1.62-src rustfmt-1.62 bindgen-0.56 llvm clang
 
 ### get Kernel
 git clone --depth 1 --single-branch --branch "${KERNEL_BRANCH}" \
@@ -76,7 +77,8 @@ cd "${KERNEL_PATH}"
 wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
 # Build Deb packages
 sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.master/changelog
-LANG=C fakeroot debian/rules clean
+LANG=C fakeroot debian/rules editconfigs
+#LANG=C fakeroot debian/rules clean
 LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
 
 #### Copy artifacts to shared volume
