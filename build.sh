@@ -66,21 +66,16 @@ chmod a+x "${KERNEL_PATH}"/debian/rules
 chmod a+x "${KERNEL_PATH}"/debian/scripts/*
 chmod a+x "${KERNEL_PATH}"/debian/scripts/misc/*
 
-echo >&2 "===]> Info: Config kernel ... "
-#/usr/bin/python3 "${KERNEL_PATH}"/debian/scripts/misc/annotations --arch amd64 --flavour generic --export > .config
-#/usr/bin/python3 "${KERNEL_PATH}"/debian/scripts/misc/annotations --arch amd64 --flavour generic --import .config
-#LANG=C fakeroot debian/rules clean updateconfigs
-
-echo >&2 "===]> Info: Bulding src... "
-
 cd "${KERNEL_PATH}"
+echo >&2 "===]> Info: Config kernel ... "
 wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
 make oldconfig
 # Build Deb packages
+echo >&2 "===]> Info: fakeroot clean... "
 sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.master/changelog
-#LANG=C fakeroot debian/rules editconfigs
 LANG=C fakeroot debian/rules clean
 #LANG=C fakeroot debian/rules clean updateconfigs
+echo >&2 "===]> Info: Bulding src... "
 LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
 
 #### Copy artifacts to shared volume
