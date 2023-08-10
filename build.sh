@@ -68,15 +68,27 @@ chmod a+x "${KERNEL_PATH}"/debian/scripts/misc/*
 
 cd "${KERNEL_PATH}"
 echo >&2 "===]> Info: Config kernel ... "
-wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
-#make oldconfig
-#make ARCH=x86 mrproper
-make olddefconfig
+#wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
+#make olddefconfig
 # Build Deb packages
 echo >&2 "===]> Info: fakeroot clean... "
 sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.master/changelog
 LANG=C fakeroot debian/rules clean
-#LANG=C fakeroot debian/rules clean updateconfigs
+# Disable debug info
+./scripts/config --undefine GDB_SCRIPTS
+./scripts/config --undefine DEBUG_INFO
+./scripts/config --undefine DEBUG_INFO_SPLIT
+./scripts/config --undefine DEBUG_INFO_REDUCED
+./scripts/config --undefine DEBUG_INFO_COMPRESSED
+./scripts/config --set-val  DEBUG_INFO_NONE       y
+./scripts/config --set-val  DEBUG_INFO_DWARF5     n
+
+make olddefconfig
+
+# Enable T2 drivers
+./scripts/config --module CONFIG_HID_APPLE_IBRIDGE
+./scripts/config --module CONFIG_HID_APPLE_TOUCHBAR
+./scripts/config --module CONFIG_HID_APPLE_MAGIC_BACKLIGHT
 echo >&2 "===]> Info: Bulding src... "
 make ARCH=x86 mrproper
 LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
