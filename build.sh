@@ -70,7 +70,7 @@ cd "${KERNEL_PATH}"
 echo >&2 "===]> Info: Config kernel ... "
 wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
 #make oldconfig
-make ARCH=x86 mrproper
+#make ARCH=x86 mrproper
 make olddefconfig
 # Build Deb packages
 echo >&2 "===]> Info: fakeroot clean... "
@@ -78,6 +78,7 @@ sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.m
 LANG=C fakeroot debian/rules clean
 #LANG=C fakeroot debian/rules clean updateconfigs
 echo >&2 "===]> Info: Bulding src... "
+make ARCH=x86 mrproper
 LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
 
 #### Copy artifacts to shared volume
