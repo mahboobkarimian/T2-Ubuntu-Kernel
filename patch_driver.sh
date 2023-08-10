@@ -27,8 +27,8 @@ git clone --single-branch --branch ${APPLE_SMC_DRIVER_BRANCH_NAME} ${APPLE_SMC_D
   "${BUILD_PATH}/linux-mbp-arch"
 cd "${BUILD_PATH}/linux-mbp-arch" || exit
 git checkout ${APPLE_SMC_DRIVER_COMMIT_HASH}
-rm 2001*
-rm 100*
+#rm 2001*
+#rm 100*
 
 while IFS= read -r file; do
   echo "==> Adding ${file}"
