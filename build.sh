@@ -34,7 +34,7 @@ rm -rf "${KERNEL_PATH}"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y build-essential fakeroot libncurses-dev bison flex libssl-dev libelf-dev \
-  openssl dkms libudev-dev libpci-dev libiberty-dev autoconf wget xz-utils git \
+  openssl dkms libudev-dev libpci-dev libiberty-dev autoconf wget xz-utils git default-jdk \
   libcap-dev bc rsync cpio dh-modaliases debhelper kernel-wedge curl gawk dwarves llvm zstd \
   wget rustc-1.62 rust-1.62-src rustfmt-1.62 bindgen-0.56 llvm clang
 
