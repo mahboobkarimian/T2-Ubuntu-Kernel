@@ -70,6 +70,7 @@ cd "${KERNEL_PATH}"
 echo >&2 "===]> Info: Config kernel ... "
 wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
 #make oldconfig
+make ARCH=x86 mrproper
 make olddefconfig
 # Build Deb packages
 echo >&2 "===]> Info: fakeroot clean... "
