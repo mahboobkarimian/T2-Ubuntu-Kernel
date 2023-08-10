@@ -69,7 +69,8 @@ chmod a+x "${KERNEL_PATH}"/debian/scripts/misc/*
 cd "${KERNEL_PATH}"
 echo >&2 "===]> Info: Config kernel ... "
 wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
-make oldconfig
+#make oldconfig
+make olddefconfig
 # Build Deb packages
 echo >&2 "===]> Info: fakeroot clean... "
 sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.master/changelog
