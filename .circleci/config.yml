@@ -41,8 +41,7 @@ jobs:
             mkdir /tmp/artifacts
             apt-get update
             apt-get install curl -y
-            curl -fsSL https://get.docker.com -o get-docker.sh
-            sh ./get-docker.sh
+            apt-get install -y docker-ce docker-ce-cli containerd.io -y
             docker pull ubuntu:23.04
             docker run \
               -t \
