@@ -39,6 +39,10 @@ jobs:
           name: Build script
           command: |
             mkdir /tmp/artifacts
+            apt-get update
+            apt-get install curl
+            curl -fsSL https://get.docker.com -o get-docker.sh
+            sh ./get-docker.sh --dry-run
             docker pull ubuntu:23.04
             docker run \
               -t \
