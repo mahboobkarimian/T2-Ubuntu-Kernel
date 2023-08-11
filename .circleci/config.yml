@@ -21,6 +21,8 @@ jobs:
             ls -lh
             echo "DBG: PWD is $(pwd)"
             mkdir /tmp/artifacts
+            apt update
+            apt install lsb_release
             ./build.sh
             echo "Built finished"
             cd /tmp/artifacts
