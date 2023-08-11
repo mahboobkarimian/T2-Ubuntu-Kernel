@@ -33,7 +33,9 @@ jobs:
             echo "CPU threads: $(nproc --all)"
             grep 'model name' /proc/cpuinfo | uniq
       - setup_remote_docker:
-          version: 20.10.14
+          version: 20.10.24
+          docker_layer_caching: true
+          
       - checkout
       - run:
           name: ls
