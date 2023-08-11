@@ -36,8 +36,13 @@ jobs:
           version: 20.10.14
       - checkout
       - run:
+          name: ls
+          command: ls -lh
+      - run:
           name: Build script
           command: |
+            ls -lh
+            echo "DBG: PWD is $(pwd)"
             mkdir /tmp/artifacts
             docker pull ubuntu:23.04
             docker run \
