@@ -6,6 +6,7 @@ on:
   push:
     paths-ignore:
       - '.github/workflows/*.yml'
+      - '.circleci/*.yml'
       - 'apt-repo/*.txt'
   pull_request:
   workflow_dispatch:
