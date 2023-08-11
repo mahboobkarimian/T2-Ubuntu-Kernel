@@ -47,7 +47,7 @@ jobs:
             docker pull ubuntu:23.04
             docker run \
               -t \
-              -v "$(pwd)":/repo \
+              -v /home/circleci/project:/repo \
               ubuntu:23.04 \
               /bin/bash -c 'cd /repo && \
               apt-get update && \
