@@ -4,7 +4,7 @@ set -eu -o pipefail
 KERNEL_REPOSITORY=git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/lunar
 echo "DBG: Gettings latest tag"
 REMOTE_LATEST_TAG=$(git ls-remote --tags --sort=-creatordate "${KERNEL_REPOSITORY}" 2>&1 | sed 's/.*refs\/tags\///' | sed 's/\^{}//')
-echo "DBG: Latest tag is "${REMOTE_LATEST_TAG}"
+echo "DBG: Latest tag is ${REMOTE_LATEST_TAG}"
 CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs)
 REPO_PATH=$(pwd)
 WORKING_PATH=/root/work
