@@ -8,6 +8,7 @@ PKGREL=1
 KERNEL_BRANCH="Ubuntu-${KERNEL_REL}-${UBUNTU_REL}"
 KERNEL_VERSION="${KERNEL_REL}-${UBUNTU_REL}-generic"
 KERNEL_REPOSITORY=git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/lunar
+CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs)
 REPO_PATH=$(pwd)
 WORKING_PATH=/root/work
 KERNEL_PATH="${WORKING_PATH}/linux-kernel"
