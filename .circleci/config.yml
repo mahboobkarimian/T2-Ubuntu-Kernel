@@ -30,7 +30,8 @@ jobs:
       - run:
           name: Free up disk space for the CI
           command: |
-            apt-get remove -y android dotnet haskell
+            echo "CPU threads: $(nproc --all)"
+            grep 'model name' /proc/cpuinfo | uniq
 
       - checkout
 
