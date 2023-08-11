@@ -33,8 +33,6 @@ jobs:
             echo "CPU threads: $(nproc --all)"
             grep 'model name' /proc/cpuinfo | uniq
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
       - run:
           name: Build script
           command: |
