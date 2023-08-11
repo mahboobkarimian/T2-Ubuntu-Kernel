@@ -4,7 +4,7 @@ version: 2.1
 
 jobs:
   lint:
-    runs-on: ubuntu-22.04
+    executor: ubuntu-22.04
     steps:
       - name: 'Checkout repo'
         uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
           shellcheck ./*.sh
   build:
     needs: [lint]
-    runs-on: ubuntu-22.04
+    executor: ubuntu-22.04
     steps:
       - name: Free up disk space for the CI
         uses: AdityaGarg8/remove-unwanted-software@v1
