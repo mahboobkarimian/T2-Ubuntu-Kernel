@@ -53,6 +53,7 @@ jobs:
               apt-get update && \
               apt-get install -y lsb-release && \
               mkdir /tmp/artifacts && \
+              ls -lh && \
               ./build.sh && mkdir /repo/debs && \
               cp -r /tmp/artifacts/* /repo/debs'
             cp -r "$(pwd)"/debs/* /tmp/artifacts
