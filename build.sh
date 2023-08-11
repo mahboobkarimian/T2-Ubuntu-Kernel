@@ -35,10 +35,10 @@ git checkout $LATEST_TAG
 
 KERNEL_VERSION="${LATEST_TAG}-generic"
 
-IFS='-' read -r dummyvar KERNEL_REL UBUNTU_REL <<< "$LATEST_TAG"
+IFS='-' read -r UBUNTU_NAME KERNEL_REL UBUNTU_REL <<< "$LATEST_TAG"
 
 ### Debug commands
-echo "KERNEL_VERSION=$KERNEL_VERSION"
+echo "$UBUNTU_NAME KERNEL_VERSION=$KERNEL_VERSION"
 echo "${WORKING_PATH}"
 echo "Current path: ${REPO_PATH}"
 echo "CPU threads: $(nproc --all)"
@@ -92,12 +92,12 @@ make olddefconfig
 ./scripts/config --module CONFIG_HID_APPLE_MAGIC_BACKLIGHT
 echo >&2 "===]> Info: Bulding src... "
 #make ARCH=x86 mrproper
-LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
+#LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
 # Get rid of the dirty tag
 #echo "" >"${KERNEL_PATH}"/.scmversion
 
 # Build Deb packages
-#make -j "$(getconf _NPROCESSORS_ONLN)" deb-pkg LOCALVERSION=-t2-"${CODENAME}" KDEB_PKGVERSION="$(make kernelversion)"
+make -j "$(getconf _NPROCESSORS_ONLN)" deb-pkg LOCALVERSION=-t2-"${CODENAME}" KDEB_PKGVERSION="${KERNEL_REL}-${UBUNTU_REL}"
 
 #### Copy artifacts to shared volume
 echo >&2 "===]> Info: Copying debs and calculating SHA256 ... "
