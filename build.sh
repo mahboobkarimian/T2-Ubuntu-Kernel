@@ -9,7 +9,7 @@ WORKING_PATH=/root/work
 KERNEL_PATH="${WORKING_PATH}/linux-kernel"
 
 get_next_version () {
-  echo $PKGREL
+  echo "$PKGREL"
 }
 
 ### Clean up
@@ -31,7 +31,7 @@ apt-get install -y build-essential fakeroot libncurses-dev bison flex libssl-dev
 git clone "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
 cd "${KERNEL_PATH}" || exit
 LATEST_TAG=$(git tag --sort=-creatordate | head -1)
-git checkout $LATEST_TAG
+git checkout "$LATEST_TAG"
 
 KERNEL_VERSION="${LATEST_TAG}-generic"
 
