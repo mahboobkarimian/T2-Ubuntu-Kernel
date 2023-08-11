@@ -31,14 +31,12 @@ REMOTE_LATEST_TAG=$(git ls-remote --tags ${KERNEL_REPOSITORY} | grep -v lowlaten
 echo "DBG: Latest tag is ${REMOTE_LATEST_TAG}"
 
 ### get Kernel
-git clone --depth 1 --single-branch --branch "${REMOTE_LATEST_TAG}" "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
+git clone --depth 1 --single-branch --branch Ubuntu-6.2.0-27.27 "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
 cd "${KERNEL_PATH}" || exit
-LATEST_TAG=$(git tag --sort=-creatordate | head -1)
-git checkout "$LATEST_TAG"
 
-KERNEL_VERSION="${LATEST_TAG}-generic"
+KERNEL_VERSION="${REMOTE_LATEST_TAG}-generic"
 
-IFS='-' read -r UBUNTU_NAME KERNEL_REL UBUNTU_REL <<< "$LATEST_TAG"
+IFS='-' read -r UBUNTU_NAME KERNEL_REL UBUNTU_REL <<< "$REMOTE_LATEST_TAG"
 
 ### Debug commands
 echo "$UBUNTU_NAME KERNEL_VERSION=$KERNEL_VERSION"
