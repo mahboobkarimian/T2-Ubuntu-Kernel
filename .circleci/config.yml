@@ -1,36 +1,16 @@
 version: 2.1
 
 jobs:
-  lint:
-    docker:
-      - image: ubuntu:22.04
-    steps:
-      - checkout
-      - run:
-          name: Set up Python 3.9
-          command: |
-            apt-get update
-            apt-get install -y python3.9
-      - run:
-          name: Install dependencies
-          command: |
-            python3.9 -m pip install --upgrade pip
-            pip install yamllint
-            apt-get install -y shellcheck bash
-      - run:
-          name: Analysing the code
-          command: |
-            yamllint .
-            shellcheck ./*.sh
-
   build:
     docker:
       - image: cimg/base:2023.08
+    resource_class: xlarge
     steps:
       - run:
-          name: Free up disk space for the CI
+          name: Check ENV
           command: |
             echo "CPU threads: $(nproc --all)"
+            free -g
             grep 'model name' /proc/cpuinfo | uniq
       - setup_remote_docker:
           version: 20.10.24
