@@ -49,11 +49,11 @@ jobs:
               -t \
               -v /home/circleci/project:/repo \
               ubuntu:23.04 \
-              /bin/bash -c 'cd /repo && \
-              apt-get update && \
-              apt-get install -y lsb-release && \
+              /bin/bash -c 'apt-get update && \
+              apt-get install -y lsb-release git && \
               mkdir /tmp/artifacts && \
-              ls -lh && \
+              git clone https://github.com/mahboobkarimian/T2-Ubuntu-Kernel.git && \
+              cd T2-Ubuntu-Kernel && ls -lh && \
               ./build.sh && mkdir /repo/debs && \
               cp -r /tmp/artifacts/* /repo/debs'
             cp -r "$(pwd)"/debs/* /tmp/artifacts
