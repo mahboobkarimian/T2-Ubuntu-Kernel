@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu -o pipefail
 
 KERNEL_REPOSITORY=https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/lunar
 CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs)
@@ -25,12 +26,9 @@ apt-get install -y build-essential fakeroot libncurses-dev bison flex libssl-dev
   libcap-dev bc rsync cpio dh-modaliases debhelper kernel-wedge curl gawk dwarves llvm zstd \
   wget rustc-1.62 rust-1.62-src rustfmt-1.62 bindgen-0.56 llvm clang
 
-set +e
 echo "DBG: Gettings info about latest tag"
-REMOTE_LATEST_TAG=$(git ls-remote --tags --sort=-creatordate ${KERNEL_REPOSITORY} 2>&1 | sed 's/.*refs\/tags\///' | sed 's/\^{}//')
+REMOTE_LATEST_TAG=$(git ls-remote --tags ${KERNEL_REPOSITORY} | grep -v lowlatency | sort -k2 -t- -V | tail -1 | sed 's/.*refs\/tags\///' | sed 's/\^{}//')
 echo "DBG: Latest tag is ${REMOTE_LATEST_TAG}"
-set -e
-set -eu -o pipefail
 
 ### get Kernel
 git clone --depth 1 --single-branch --branch "${REMOTE_LATEST_TAG}" "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
