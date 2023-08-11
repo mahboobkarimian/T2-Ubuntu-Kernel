@@ -34,6 +34,9 @@ jobs:
             grep 'model name' /proc/cpuinfo | uniq
 
       - checkout
+      - run:
+          name: Install Docker client
+          command: apk add docker-cli
       - setup_remote_docker:
           version: 20.10.24
           docker_layer_caching: true
