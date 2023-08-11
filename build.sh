@@ -2,23 +2,11 @@
 
 set -eu -o pipefail
 
-KERNEL_REL=6.2.0
-UBUNTU_REL=27.27
-PKGREL=1
-KERNEL_BRANCH="Ubuntu-${KERNEL_REL}-${UBUNTU_REL}"
-KERNEL_VERSION="${KERNEL_REL}-${UBUNTU_REL}-generic"
 KERNEL_REPOSITORY=git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/lunar
 CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs)
 REPO_PATH=$(pwd)
 WORKING_PATH=/root/work
 KERNEL_PATH="${WORKING_PATH}/linux-kernel"
-
-### Debug commands
-echo "KERNEL_VERSION=$KERNEL_VERSION"
-echo "${WORKING_PATH}"
-echo "Current path: ${REPO_PATH}"
-echo "CPU threads: $(nproc --all)"
-grep 'model name' /proc/cpuinfo | uniq
 
 get_next_version () {
   echo $PKGREL
@@ -40,9 +28,21 @@ apt-get install -y build-essential fakeroot libncurses-dev bison flex libssl-dev
   wget rustc-1.62 rust-1.62-src rustfmt-1.62 bindgen-0.56 llvm clang
 
 ### get Kernel
-git clone --depth 1 --single-branch --branch "${KERNEL_BRANCH}" \
-  "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
+git clone "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
 cd "${KERNEL_PATH}" || exit
+LATEST_TAG=$(git tag --sort=-creatordate | head -1)
+git checkout $LATEST_TAG
+
+KERNEL_VERSION="${LATEST_TAG}-generic"
+
+IFS='-' read -r dummyvar KERNEL_REL UBUNTU_REL <<< "$LATEST_TAG"
+
+### Debug commands
+echo "KERNEL_VERSION=$KERNEL_VERSION"
+echo "${WORKING_PATH}"
+echo "Current path: ${REPO_PATH}"
+echo "CPU threads: $(nproc --all)"
+grep 'model name' /proc/cpuinfo | uniq
 
 #### Create patch file with custom drivers
 echo >&2 "===]> Info: Creating patch file... "
@@ -69,8 +69,8 @@ chmod a+x "${KERNEL_PATH}"/debian/scripts/misc/*
 
 cd "${KERNEL_PATH}"
 echo >&2 "===]> Info: Config kernel ... "
-#wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
-#make olddefconfig
+wget https://raw.githubusercontent.com/mahboobkarimian/T2-Ubuntu-Kernel/Ubuntu/.config
+make olddefconfig
 # Build Deb packages
 echo >&2 "===]> Info: fakeroot clean... "
 sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.master/changelog
@@ -92,12 +92,12 @@ make olddefconfig
 ./scripts/config --module CONFIG_HID_APPLE_MAGIC_BACKLIGHT
 echo >&2 "===]> Info: Bulding src... "
 #make ARCH=x86 mrproper
-#LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
+LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
 # Get rid of the dirty tag
-echo "" >"${KERNEL_PATH}"/.scmversion
+#echo "" >"${KERNEL_PATH}"/.scmversion
 
 # Build Deb packages
-make -j "$(getconf _NPROCESSORS_ONLN)" deb-pkg LOCALVERSION=-t2-"${CODENAME}" KDEB_PKGVERSION="$(make kernelversion)-$(get_next_version)"
+#make -j "$(getconf _NPROCESSORS_ONLN)" deb-pkg LOCALVERSION=-t2-"${CODENAME}" KDEB_PKGVERSION="$(make kernelversion)"
 
 #### Copy artifacts to shared volume
 echo >&2 "===]> Info: Copying debs and calculating SHA256 ... "
