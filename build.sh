@@ -27,8 +27,9 @@ apt-get install -y build-essential fakeroot libncurses-dev bison flex libssl-dev
   libcap-dev bc rsync cpio dh-modaliases debhelper kernel-wedge curl gawk dwarves llvm zstd \
   wget rustc-1.62 rust-1.62-src rustfmt-1.62 bindgen-0.56 llvm clang
 
+REMOTE_LATEST_TAG=$(git ls-remote --tags --sort=-creatordate "${KERNEL_REPOSITORY}" 2>&1 | sed 's/.*refs\/tags\///' | sed 's/\^{}//')
 ### get Kernel
-git clone "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
+git clone --depth 1 --single-branch --branch "${REMOTE_LATEST_TAG}" "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
 cd "${KERNEL_PATH}" || exit
 LATEST_TAG=$(git tag --sort=-creatordate | head -1)
 git checkout "$LATEST_TAG"
