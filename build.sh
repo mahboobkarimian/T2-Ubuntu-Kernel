@@ -73,7 +73,7 @@ echo >&2 "===]> Info: Config kernel ... "
 # Build Deb packages
 echo >&2 "===]> Info: fakeroot clean... "
 sed -i "s/${KERNEL_REL}-${UBUNTU_REL}/${KERNEL_REL}-${UBUNTU_REL}+t2/g" debian.master/changelog
-LANG=C fakeroot debian/rules clean
+#LANG=C fakeroot debian/rules clean
 # Disable debug info
 ./scripts/config --undefine GDB_SCRIPTS
 ./scripts/config --undefine DEBUG_INFO
@@ -90,8 +90,13 @@ make olddefconfig
 ./scripts/config --module CONFIG_HID_APPLE_TOUCHBAR
 ./scripts/config --module CONFIG_HID_APPLE_MAGIC_BACKLIGHT
 echo >&2 "===]> Info: Bulding src... "
-make ARCH=x86 mrproper
-LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
+#make ARCH=x86 mrproper
+#LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
+# Get rid of the dirty tag
+echo "" >"${KERNEL_PATH}"/.scmversion
+
+# Build Deb packages
+make -j "$(getconf _NPROCESSORS_ONLN)" deb-pkg LOCALVERSION=-t2-"${CODENAME}" KDEB_PKGVERSION="$(make kernelversion)-$(get_next_version)"
 
 #### Copy artifacts to shared volume
 echo >&2 "===]> Info: Copying debs and calculating SHA256 ... "
