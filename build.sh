@@ -1,6 +1,6 @@
 #!/bin/bash
 
-KERNEL_REPOSITORY=git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/lunar
+KERNEL_REPOSITORY=https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/lunar
 CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs)
 REPO_PATH=$(pwd)
 WORKING_PATH=/root/work
