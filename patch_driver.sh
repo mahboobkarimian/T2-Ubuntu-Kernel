@@ -28,6 +28,8 @@ git clone --single-branch --branch ${APPLE_SMC_DRIVER_BRANCH_NAME} ${APPLE_SMC_D
 cd "${BUILD_PATH}/linux-mbp-arch" || exit
 git checkout ${APPLE_SMC_DRIVER_COMMIT_HASH}
 rm 2001*
+rm 8002*
+rm 8003*
 #rm 100*
 
 while IFS= read -r file; do
