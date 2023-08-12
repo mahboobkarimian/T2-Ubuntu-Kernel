@@ -1,7 +1,7 @@
-Download the debs. Put them in a folder (say Downloads). Then run (assuming you have put them in Downloads, edit the path for another folder) :-
+See instructions for manual installation:
+[here](https://github.com/t2linux/T2-Ubuntu-Kernel#download-package-manually).
 
-```plain
-sudo apt install $HOME/Downloads/*REL*
-```
-
-Note:- The **linux-buildinfo**, **linux-cloud-tools** and **linux-tools** debs are optional. You may not download them if they aren't required by you. Rest debs are compulsory.
+In short:
+1. Download debs
+2. Install headers deb
+3. Install kernel image deb
