@@ -2,7 +2,7 @@
 name: Build Kernel Package
 permissions:
   contents: write
-  
+
 # yamllint disable-line rule:truthy
 on:
   push:
@@ -67,13 +67,13 @@ jobs:
           ls -lh
           dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
           ls -lh
-          
+
       - name: Get tag from image name
         id: get_tag
         run: |
           cd /tmp/artifacts
           echo "imagetag=$(ls linux-image* | cut -d "_" -f 2)" >> $GITHUB_OUTPUT
-        
+
       - name: Upload package artifact
         uses: actions/upload-artifact@v2
         with:
