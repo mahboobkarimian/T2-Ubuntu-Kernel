@@ -104,6 +104,6 @@ make -j "$(getconf _NPROCESSORS_ONLN)" deb-pkg LOCALVERSION=-t2-"${CODENAME}" KD
 echo >&2 "===]> Info: Copying debs and calculating SHA256 ... "
 #cp -rfv ../*.deb "${REPO_PATH}/"
 #cp -rfv "${KERNEL_PATH}/.config" "${REPO_PATH}/kernel_config_${KERNEL_VERSION}"
-cp -rfv "${KERNEL_PATH}/debian/build/build-generic/.config" "/tmp/artifacts/kernel_config_${KERNEL_VERSION}"
+#cp -rfv "${KERNEL_PATH}/debian/build/build-generic/.config" "/tmp/artifacts/kernel_config_${KERNEL_VERSION}"
 cp -rfv ../*.deb /tmp/artifacts/
 sha256sum ../*.deb >/tmp/artifacts/sha256
