@@ -15,6 +15,9 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v3
+        
       - name: Build script
         id: build
         run: |
@@ -27,7 +30,7 @@ jobs:
         id: get_tag
         run: |
           cd /tmp/artifacts
-          echo "::set-output name=imagetag::$(ls linux-image* | cut -d "_" -f 2)"
+          echo "imagetag=$(ls linux-image* | cut -d "_" -f 2)" >> $GITHUB_OUTPUT
         
       - name: Upload package artifact
         uses: actions/upload-artifact@v2
