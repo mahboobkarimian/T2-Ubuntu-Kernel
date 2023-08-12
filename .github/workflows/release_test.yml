@@ -25,7 +25,9 @@ jobs:
           
       - name: Get tag from image name
         id: get_tag
-        run: echo "::set-output name=imagetag::$(ls linux-image* | cut -d "_" -f 2)"
+        run: |
+          cd /tmp/artifacts
+          echo "::set-output name=imagetag::$(ls linux-image* | cut -d "_" -f 2)"
         
       - name: Upload package artifact
         uses: actions/upload-artifact@v2
