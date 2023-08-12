@@ -1,7 +1,8 @@
 ---
 name: Release test
-
-# yamllint disable-line rule:truthy
+permissions:
+  contents: write
+  
 on:
   push:
     paths-ignore:
@@ -37,11 +38,6 @@ jobs:
         with:
           name: linux-T2-${{ steps.get_tag.outputs.imagetag }}
           path: /tmp/artifacts/*
-
-      - name: Create and push tag
-        run: |
-          git tag v${{ steps.get_tag.outputs.imagetag }}
-          git push origin v${{ steps.get_tag.outputs.imagetag }}
 
       - name: Release
         if: github.ref == 'refs/heads/Ubuntu'
