@@ -46,7 +46,6 @@ jobs:
         id: build
         run: |
           mkdir /tmp/artifacts
-          ${{ github.workspace }}/.github/workflows/instructions.txt
           DOCKER_IMAGE=ubuntu:23.04
           docker pull ${DOCKER_IMAGE}
           docker run \
