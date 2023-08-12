@@ -25,6 +25,7 @@ jobs:
           mkdir /tmp/artifacts
           cd /tmp/artifacts
           touch linux-image-6.2.16-t2-lunar_6.2.0-30.30-generic_amd64.deb
+          echo "1st rel" > linux-image-6.2.16-t2-lunar_6.2.0-30.30-generic_amd64.deb
           ls -lh
           
       - name: Get tag from image name
