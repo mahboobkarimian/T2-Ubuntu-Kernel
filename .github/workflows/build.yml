@@ -1,6 +1,8 @@
 ---
 name: Build Kernel Package
-
+permissions:
+  contents: write
+  
 # yamllint disable-line rule:truthy
 on:
   push:
@@ -68,7 +70,9 @@ jobs:
           
       - name: Get tag from image name
         id: get_tag
-        run: echo "::set-output name=imagetag::$(ls linux-image* | cut -d "_" -f 2)"
+        run: |
+          cd /tmp/artifacts
+          echo "imagetag=$(ls linux-image* | cut -d "_" -f 2)" >> $GITHUB_OUTPUT
         
       - name: Upload package artifact
         uses: actions/upload-artifact@v2
