@@ -1,0 +1,45 @@
+---
+name: Build Kernel Package
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    paths-ignore:
+      - '.github/workflows/*.yml'
+      - '.circleci/*.yml'
+      - 'apt-repo/*.txt'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Build script
+        id: build
+        run: |
+          mkdir /tmp/artifacts
+          cd /tmp/artifacts
+          touch linux-image-6.2.16-t2-lunar_6.2.0-30.30-generic_amd64.deb
+          ls -lh
+          
+      - name: Get tag from image name
+        id: get_tag
+        run: echo "::set-output name=imagetag::$(ls linux-image* | cut -d "_" -f 2)"
+        
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-T2-${{ steps.get_tag.outputs.imagetag }}
+          path: /tmp/artifacts/*
+
+      - name: Release
+        if: github.ref == 'refs/heads/Ubuntu'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            /tmp/artifacts/*.deb
+          tag_name: ${{ steps.get_tag.outputs.imagetag }}
+          body_path: ${{ github.workspace }}/.github/workflows/instructions.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
