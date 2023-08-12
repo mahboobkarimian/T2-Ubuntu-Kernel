@@ -1,5 +1,5 @@
 ---
-name: Build Kernel Package
+name: Release test
 
 # yamllint disable-line rule:truthy
 on:
