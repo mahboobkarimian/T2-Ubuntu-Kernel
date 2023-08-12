@@ -17,9 +17,9 @@ get_next_version () {
 ### Clean up
 rm -rfv ./*.deb
 
-mkdir "$WORKING_PATH" && cd "${WORKING_PATH}"
+mkdir "${WORKING_PATH}" && cd "${WORKING_PATH}"
+cp -rf "${REPO_PATH}"/{patches,templates} "${WORKING_PATH}"
 rm -rf "${KERNEL_PATH}"
-
 
 ### get Kernel
 git clone --depth 1 --single-branch --branch "$REMOTE_LATEST_TAG" "${KERNEL_REPOSITORY}" "${KERNEL_PATH}"
