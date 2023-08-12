@@ -65,11 +65,15 @@ jobs:
           ls -lh
           dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
           ls -lh
-
+          
+      - name: Get tag from image name
+        id: get_tag
+        run: echo "::set-output name=imagetag::$(ls linux-image* | cut -d "_" -f 2)"
+        
       - name: Upload package artifact
         uses: actions/upload-artifact@v2
         with:
-          name: linux-T2-${{ steps.build.outputs.tag }}
+          name: linux-T2-${{ steps.get_tag.outputs.imagetag }}
           path: /tmp/artifacts/*
 
       - name: Release
@@ -80,7 +84,7 @@ jobs:
             /tmp/artifacts/Packages.gz
             /tmp/artifacts/sha256
             /tmp/artifacts/*.deb
-          tag_name: v${{ steps.build.outputs.tag }}
+          tag_name: ${{ steps.get_tag.outputs.imagetag }}
           body_path: ${{ github.workspace }}/.github/workflows/instructions.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
