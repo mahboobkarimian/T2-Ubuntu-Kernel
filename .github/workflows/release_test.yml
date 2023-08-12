@@ -38,15 +38,10 @@ jobs:
           name: linux-T2-${{ steps.get_tag.outputs.imagetag }}
           path: /tmp/artifacts/*
 
-      - name: Create tag
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.get_tag.outputs.imagetag }}
-          release_name: Release v ${{ steps.get_tag.outputs.imagetag }}
-          draft: false
-          prerelease: false
+      - name: Create and push tag
+        run: |
+          git tag v${{ steps.get_tag.outputs.imagetag }}
+          git push origin v${{ steps.get_tag.outputs.imagetag }}
 
       - name: Release
         if: github.ref == 'refs/heads/Ubuntu'
